@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import './App.css';
 import Tabela from './Tabela';
+import Form from './Formulario';
 
 class App extends Component {
 
@@ -36,11 +37,11 @@ class App extends Component {
 
   removeAutor = (index) => {
 
-    const { autores } = this.state;
+    //const { autores } = this.state;
     
     this.setState(
       {
-        autores: autores.filter((autor, posAtual) => {
+        autores: this.state.autores.filter((autor, posAtual) => { //alterando o estado no momeno do clique do usuário. Neste caso, deixamos no array, apenas aqueles elementos que não foram clicados para serem excluídos
           return posAtual !== index;
         })
       }
@@ -50,9 +51,10 @@ class App extends Component {
   
   render() {
     return (
-      <div className="App">
+      <Fragment>
         <Tabela autores = { this.state.autores } removeAutor = { this.removeAutor }/>
-      </div>
+        <Form/>
+      </Fragment>
     );
   }
 
