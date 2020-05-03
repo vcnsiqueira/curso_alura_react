@@ -37,23 +37,29 @@ class App extends Component {
 
   removeAutor = (index) => {
 
-    //const { autores } = this.state;
+    const { autores } = this.state;
     
     this.setState(
       {
-        autores: this.state.autores.filter((autor, posAtual) => { //alterando o estado no momeno do clique do usuário. Neste caso, deixamos no array, apenas aqueles elementos que não foram clicados para serem excluídos
+        autores: autores.filter((autor, posAtual) => { //alterando o estado no momeno do clique do usuário. Neste caso, deixamos no array, apenas aqueles elementos que não foram clicados para serem excluídos
           return posAtual !== index;
         })
       }
     )
 
   }
+
+  escutadorDeSubmit = autor => {
+    
+    this.setState({ autores:[...this.state.autores, autor] });
+      
+  }
   
   render() {
     return (
       <Fragment>
         <Tabela autores = { this.state.autores } removeAutor = { this.removeAutor }/>
-        <Form/>
+        <Form escutadorDeSubmit = { this.escutadorDeSubmit }/>
       </Fragment>
     );
   }
