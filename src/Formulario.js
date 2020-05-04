@@ -1,9 +1,12 @@
 import React, { Component} from 'react';
+import FormValidator from './FormValidator';
 
 class Formulario extends Component {
 
     constructor(props) {
         super(props);
+
+        this.validador = new FormValidator(); // criação da instância de FormValidator
 
         this.stateInicial = {
             nome: '',
@@ -23,8 +26,14 @@ class Formulario extends Component {
     }
 
     submitFormulario = () => {
-        this.props.escutadorDeSubmit(this.state);
-        this.setState(this.stateInicial);
+
+        if(this.validador.valida(this.state)){
+            this.props.escutadorDeSubmit(this.state);
+            this.setState(this.stateInicial);
+        }else{
+            console.log('Submit bloqueado');
+        }
+        
     }
 
     render() {
@@ -47,8 +56,8 @@ class Formulario extends Component {
                         <input className="validate" id="preco" type="text" name="preco" value={preco} onChange={this.escutadorDeInput}/>
                     </div>
                 </div>
-
                 <button className="btn waves-effect waves-light indigo lighten-2" type="button" onClick={this.submitFormulario}>Salvar</button>
+        
             </form>
         )
     }
