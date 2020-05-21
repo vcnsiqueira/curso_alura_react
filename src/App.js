@@ -6,6 +6,7 @@ import Header from './Header';
 import Tabela from './Tabela';
 import Form from './Formulario';
 import PopUp from './PopUp';
+import ApiService from './ApiService';
 
 
 class App extends Component {
@@ -63,6 +64,17 @@ class App extends Component {
   }
   
   render() {
+
+    ApiService.ListaAutores()
+      .then(res => console.log(res.data))
+
+    ApiService.ListaNomes()
+      .then(res => console.log(res.data))
+
+    ApiService.ListaLivros()
+      .then(res => console.log(res.data))
+    
+
     return (
       <Fragment>
         <Header />
