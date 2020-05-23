@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-
+import React from 'react';
 
 // Importando componentes de Tabela do Material-UI
 import Table from '@material-ui/core/Table';
@@ -9,41 +8,45 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 
-class Tabela extends Component {
-    render() {
+const Tabela = props => {
+    const { campos, dados, removeAutor } = props;
 
-        const { autores, removeAutor } = this.props;
-
-        return(
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Autores</TableCell>
-                        <TableCell>Livros</TableCell>
-                        <TableCell>Preços</TableCell>
-                        <TableCell>Remover</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableHead/>
-                <TableBody>
+    return(
+        <Table>
+            <TableHead>
+                <TableRow>
                     {
-                        autores.map((autor) => {
-                            return (
-                                <TableRow key={autor.id}>
-                                    <TableCell>{autor.nome}</TableCell>
-                                    <TableCell>{autor.livro}</TableCell>
-                                    <TableCell>{autor.preco}</TableCell>
-                                    <TableCell>
-                                        <Button variant='contained' color='primary' onClick={() => { removeAutor(autor.id) }}>Remover</Button>
-                                    </TableCell>
-                                </TableRow>
+                        campos.map((campo) => {
+                            return(
+                                <TableCell>{campo.titulo}</TableCell>
                             )
                         })
                     }
-                </TableBody>
-            </Table>
-        );
-    }
+                </TableRow>
+            </TableHead>
+            <TableHead/>
+            <TableBody>
+                {
+                    dados.map((dado) => {
+                        return (
+                            <TableRow key={dado.id}>
+                                {
+                                    campos.map((campo) => {
+                                        return(
+                                            <TableCell>{dado[campo.name]}</TableCell>
+                                        )
+                                    })
+                                }
+                                <TableCell>
+                                    <Button variant='contained' color='primary' onClick={() => { removeAutor(dado.id) }}>Remover</Button>
+                                </TableCell>
+                            </TableRow>
+                        )
+                    })
+                }
+            </TableBody>
+        </Table>
+    );
 }
 
 export default Tabela;
