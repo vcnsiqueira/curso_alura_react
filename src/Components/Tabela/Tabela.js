@@ -37,7 +37,7 @@ const Tabela = props => {
                             )
                         })
                     }
-                    <CellDeleta removeDados titulo/>
+                    <CellDeleta removeDados={removeDados} titulo/>
                 </TableRow>
             </TableHead>
             <TableHead/>
