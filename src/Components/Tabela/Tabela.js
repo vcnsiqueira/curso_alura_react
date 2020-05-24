@@ -9,18 +9,24 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 
 const CellDeleta = props => {
-    const {removeDados, id, titulo} = props;
+    const {removeDados, id} = props;
     if(!removeDados) {
         return null
     }
-    if(titulo) {
-        return <TableCell>Remover</TableCell>
-    }
+    
     return(
         <TableCell>
             <Button variant='contained' color='primary' onClick={() => { removeDados(id) }}>Remover</Button>
         </TableCell>
     );
+}
+
+const TitleDeleta = props => {
+    const {removeDados} = props;
+    if(! removeDados) {
+        return null
+    }
+    return <TableCell>Remover</TableCell>
 }
 
 const Tabela = props => {
@@ -37,7 +43,7 @@ const Tabela = props => {
                             )
                         })
                     }
-                    <CellDeleta removeDados={removeDados} titulo/>
+                    <TitleDeleta removeDados={removeDados}/>
                 </TableRow>
             </TableHead>
             <TableHead/>
