@@ -1,6 +1,9 @@
-import React, { Component} from 'react';
+import React, { Component, Fragment } from 'react';
 import FormValidator from '../../utils/FormValidator';
-import PopUp from '../../utils/PopUp';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Toast from '../../Components/Toast/Toast';
 
 class Formulario extends Component {
 
@@ -33,8 +36,13 @@ class Formulario extends Component {
             nome: '',
             livro: '',
             preco: '',
-            validacao: this.validador.valido()
-        }
+            validacao: this.validador.valido(),
+            mensagem: {
+                open: false,
+                texto: '',
+                tipo: 'success'
+            }
+        };
 
         this.state = this.stateInicial;
     }
@@ -61,8 +69,16 @@ class Formulario extends Component {
             const camposInvalidos = campos.filter(elem => {
                 return elem.isInvalid;
             });
-            camposInvalidos.forEach(campo => {
-                PopUp.exibeMensagem('error', campo.message)
+            console.log(camposInvalidos);
+            const erros = camposInvalidos.reduce((erros, campo) => 
+                erros + campo.message + '. ', '');
+            console.log(erros)
+            this.setState({
+                mensagem: {
+                    open: true,
+                    texto: erros, 
+                    tipo: 'error'
+                }
             });
         }
 
@@ -70,27 +86,38 @@ class Formulario extends Component {
 
     render() {
 
-        const { nome, livro, preco } = this.state;
+        const { nome, livro, preco} = this.state;
 
         return (
-            <form>
-                <div className="row">
-                    <div className="input-field col s4">
-                        <label className="input-field" htmlFor="nome">Nome</label>
-                        <input className="validate" id="nome" type="text" name="nome" value={nome} onChange={this.escutadorDeInput}/>
-                    </div>
-                    <div className="input-field col s4">
-                        <label className="input-field" htmlFor="livro">Livro</label>
-                        <input className="validate" id="livro" type="text" name="livro" value={livro} onChange={this.escutadorDeInput}/>
-                    </div>
-                    <div className="input-field col s4">
-                        <label className="input-field" htmlFor="preco">Preço</label>
-                        <input className="validate" id="preco" type="text" name="preco" value={preco} onChange={this.escutadorDeInput}/>
-                    </div>
-                </div>
-                <button className="btn waves-effect waves-light indigo lighten-2" type="button" onClick={this.submitFormulario}>Salvar</button>
-        
-            </form>
+            <Fragment>
+                <Toast 
+                    open={this.state.mensagem.open} 
+                    handleClose={() => this.setState({
+                        mensagem: {
+                            open: false
+                        }
+                    })}
+                    severity={this.state.mensagem.tipo}>
+                    {this.state.mensagem.texto}
+                </Toast>
+                <form>
+                    <Grid container spacing={2} alignItems='center'>
+                        <Grid item xs>
+                            <TextField id="nome" label="Nome" variant="outlined" name="nome" value={nome} onChange={this.escutadorDeInput}/>
+                        </Grid>
+                        <Grid item xs>
+                            <TextField id="livro" label="Livro" variant="outlined" name="livro" value={livro} onChange={this.escutadorDeInput}/>
+                        </Grid>
+                        <Grid item xs>
+                            <TextField id="preco" label="Preço" variant="outlined" name="preco" value={preco} onChange={this.escutadorDeInput}/>
+                        </Grid>
+                        <Grid item xs>
+                            <Button variant="contained" color="primary" onClick={this.submitFormulario}>Salvar</Button>
+                        </Grid>
+                    </Grid>
+            
+                </form>
+            </Fragment>
         )
     }
 }
